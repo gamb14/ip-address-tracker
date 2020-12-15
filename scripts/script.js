@@ -10,10 +10,16 @@ const spinner = document.querySelector('.spinner');
 const infos = document.querySelectorAll('.details div');
 
 // Functions
+const apikey = 'at_Rxcc3KbPOJFHuarmAmalvziT6LFZ9';
 
+const getIp = async () => {
+  spinnerAnimation()
+
+  const response = await fetch(`https://geo.ipify.org/api/v1?apiKey=${apikey}`);
+  const data = await response.json();
+  return data;
+}
 const getIPDetails = async (ip) => {
-  const apikey = 'at_Rxcc3KbPOJFHuarmAmalvziT6LFZ9';
-
   const base = 'https://geo.ipify.org/api/v1'
   const query = `?apiKey=${apikey}&ipAddress=${ip}`
   const response = await fetch(base + query);
@@ -99,14 +105,27 @@ form.addEventListener('submit', e => {
       showLocation(data.location);
       removeError();
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       showError();
       resetFields();
       spinnerAnimation();
     })
 
 });
+
+
+// get user ip
+
+getIp()
+  .then(data => {
+    fillUp(data);
+    spinnerAnimation();
+    showLocation(data.location);
+  })
+  .catch(() => {
+    spinnerAnimation();
+  })
+
 
 // Map Things
 
