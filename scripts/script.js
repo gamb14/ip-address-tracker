@@ -115,7 +115,6 @@ form.addEventListener('submit', e => {
 
 
 // get user ip
-
 getIp()
   .then(data => {
     fillUp(data);
